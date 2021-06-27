@@ -7,6 +7,7 @@
     import Footer from './Footer.svelte';
     import ContentContainer from "./ContentContainer.svelte";
 
+
 </script>
 
 <Tailwindcss/>
@@ -19,7 +20,6 @@
 <svelte:head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </svelte:head>
 
 
@@ -30,7 +30,8 @@
         margin: 0;
         padding: 0;
     }
-    :global(button){
+
+    :global(button) {
         font-family: inherit;
         font-size: inherit;
         -webkit-padding: 0.4em 0;
@@ -40,6 +41,10 @@
         border: 0px solid #ccc;
         border-radius: 0px;
 
+    }
+
+    :global(a:hover) {
+        text-decoration: none;
     }
 
 
