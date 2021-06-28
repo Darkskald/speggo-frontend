@@ -1,13 +1,13 @@
 <script>
     import {download_csv_file} from "./export_csv";
     import {getContext, onMount, setContext} from "svelte";
-    import {fetchSfg, plotSfg, visualizeSfg} from "./test";
+    import {fetchSfg, plotSfg, visualizeSfg} from "./plotting";
 
-    let spectrum ="";
+    let spectrum = "";
     let rawToggle = 1;
 
-    $: if ( spectrum !== "") {
-       plotSfg(spectrum, 'plotter', rawToggle);
+    $: if (spectrum !== "") {
+        plotSfg(spectrum, 'plotter', rawToggle);
     }
 
 

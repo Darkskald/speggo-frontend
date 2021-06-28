@@ -12,6 +12,18 @@ export async function fetchSfg() {
     }
 }
 
+export async function fuzzySfg(filter) {
+    console.log(filter)
+    const res = await fetch("http://localhost:8080/sfg/fuzzy/" + filter)
+    const data = await res.json()
+    if (res.ok) {
+        return data;
+    } else {
+        throw new Error(data)
+    }
+
+}
+
 export function visualizeSfg(divId) {
 
     fetch(sfgUrl, {})
@@ -44,10 +56,10 @@ export function plotSfg(sfg, divId, rawToggle) {
 
     let y;
 
-    if (rawToggle===0){
-        y=sfg.sfg_intensity;
-    }else {
-        y=normalizeSfgIntensity(sfg);
+    if (rawToggle === 0) {
+        y = sfg.sfg_intensity;
+    } else {
+        y = normalizeSfgIntensity(sfg);
     }
 
     let data = [{
@@ -66,5 +78,5 @@ function normalizeSfgIntensity(sfg) {
     let result = sfg.sfg_intensity.map((currElem, index) =>
         currElem / (sfg.ir[index] * sfg.vis[index])
     )
-    return(result)
+    return (result)
 }
