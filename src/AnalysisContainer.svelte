@@ -1,7 +1,7 @@
 <script>
-    import {download_csv_file} from "./export_csv";
+    import {download_csv_file} from "./js_scripts/export_csv";
     import {getContext, onMount, setContext} from "svelte";
-    import {fetchSfg, plotSfg, visualizeSfg} from "./plotting";
+    import {fetchSfg, plotSfg, visualizeSfg} from "./js_scripts/plotting";
 
     let spectrum = "";
     let rawToggle = 1;

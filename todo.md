@@ -1,5 +1,9 @@
 # Overall functionality
 
+## Flow
+
+UI input --> Component code --> Connector --> Plotter
+
 ## Search bar
 
 - fuzzy search by name (and pop-up of the results)

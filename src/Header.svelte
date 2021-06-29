@@ -1,5 +1,5 @@
 <script>
-    import {fetchSfg, fuzzySfg, plotSfg} from "./plotting";
+    import {fetchSfg, fuzzySfg, plotSfg} from "./js_scripts/plotting";
     import {onMount} from "svelte";
 
     export let select_name = "";
@@ -7,7 +7,7 @@
     $: input = "";
     $: results = [];
 
-    $: if (input != "") {
+    $: if (input !== "") {
         fetch("http://localhost:8080/sfg/fuzzy/" + input)
             .then(response => response.json())
             .then(data => results = data);

@@ -10,7 +10,7 @@
   */
 
 /**  To work on this script:
-  rm -rf test-template template && git clone sveltejs/template test-template && node scripts/setupTypeScript.js test-template
+  rm -rf test-template template && git clone sveltejs/template test-template && node js_scripts/setupTypeScript.js test-template
 */
 
 const fs = require("fs")
@@ -96,9 +96,9 @@ if (!argv[2]) {
     fs.unlinkSync(path.join(__dirname, '.DS_store'))
   }
 
-  // Check if the scripts folder is empty
+  // Check if the js_scripts folder is empty
   if (fs.readdirSync(path.join(__dirname)).length === 0) {
-    // Remove the scripts folder
+    // Remove the js_scripts folder
     fs.rmdirSync(path.join(__dirname))
   }
 }
