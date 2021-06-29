@@ -2,6 +2,8 @@
     import {fetchSfg, fuzzySfg, plotSfg} from "./plotting";
     import {onMount} from "svelte";
 
+    export let select_name = "";
+
     $: input = "";
     $: results = [];
 
@@ -9,10 +11,11 @@
         fetch("http://localhost:8080/sfg/fuzzy/" + input)
             .then(response => response.json())
             .then(data => results = data);
-    } else{
+    } else {
         results = [];
     }
 
+    $: alert(select_name)
 
 </script>
 <nav id="header" class="bg-gray-900 fixed w-full z-10 top-0 shadow">
@@ -115,18 +118,34 @@
                     </svg>
                 </div>
                 {#if (results.length > 0)}
-                    <div class="w-full text-sm py-1 px-2 pl-10 bg-gray-800 text-gray-100 overflow-auto h-32">
+                    <div class="w-full p-0  bg-gray-800 text-gray-100 overflow-auto max-h-64 absolute text-xs">
 
-                        <ul>
+                        <ul class="m-0 p-0 cursor-pointer">
                             {#each results as result}
-                                <li>{result}</li>
+                                <li on:click={() => {select_name=result; input=""}} class="hover:text-red-300">{result}</li>
                             {/each}
                         </ul>
                     </div>
                 {/if}
+
             </div>
-
         </div>
-
     </div>
 </nav>
+
+<style>
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #444040;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>

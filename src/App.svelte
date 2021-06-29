@@ -7,12 +7,14 @@
     import Footer from './Footer.svelte';
     import ContentContainer from "./ContentContainer.svelte";
 
+    let select_name="";
+
 
 </script>
 
 <Tailwindcss/>
 <main class="bg-black-alt font-sans leading-normal tracking-normal">
-    <Header/>
+    <Header bind:select_name/>
     <ContentContainer/>
     <Footer/>
 </main>
