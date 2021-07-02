@@ -4,6 +4,7 @@
     import {Plotter} from "./js_scripts/Plotter";
     import {currentSpecID} from "./stores";
     import {BackendConnector} from "./js_scripts/BackendConnector";
+    import Toggle from "./components/Toggle.svelte";
 
     let multiModeToggle = false;
     let rawToggle = 1;
@@ -81,13 +82,8 @@
                 </div>
                 <div class="mb-1 p-3 text-gray-600">
 
-                    <div class="flex flex-row w-full">
-                        <label class="switch p-3 mb-2">
-                            <input type="checkbox" bind:checked={multiModeToggle}>
-                            <span class="slider round"></span>
-                        </label>
-                        <div class="px-3">toggle mutli spec mode</div>
-                    </div>
+                    <Toggle bind:multiModeToggle labelText="toggle multisepc mode"/>
+
                     {#if !multiModeToggle}
                         <hr class="mt-2 border-solid border-gray-400">
 
@@ -124,64 +120,3 @@
     </div>
 </div>
 
-<style>
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked + .slider {
-        background-color: #0d6cb6;
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px #0d6cb6;
-    }
-
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 30px;
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
-</style>
