@@ -14,6 +14,14 @@
     let selectors = []
     let buffer = [];
 
+    $: if (!multiModeToggle) {
+        if (buffer.length > 0){
+            buffer=buffer.slice(0,1)
+            plotter.data=buffer;
+            plotter.plot()
+        }
+    }
+
     //$: if (spectrum !== "") {
     // plotSfg(spectrum, 'plotter', rawToggle);
 
