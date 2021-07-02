@@ -2,7 +2,7 @@
  * Represents a single data set that may be passed to Plotly.
  */
 export class Trace {
-    constructor(name, x, y, mode = " 'lines+markers'") {
+    constructor(name, x, y, mode = 'lines+markers') {
         this.x = x;
         this.y = y;
         this.mode = mode;
@@ -71,15 +71,3 @@ export class SfgSpectrum {
     }
 
 }
-
-
-let data = {
-    "name": "dummy",
-    "wavenumbers": [1, 2, 3, 4,],
-    "sfg_intensity": [1, 2, 3, 4,],
-    "ir": [1, 2, 3, 4,],
-    "vis": [1, 2, 3, 4,]
-}
-
-let sfg = new SfgSpectrum().fromJson(data)
-console.log(sfg.toCSV())

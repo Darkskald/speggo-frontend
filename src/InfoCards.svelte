@@ -1,7 +1,7 @@
 <script>
 
     import {onMount} from "svelte";
-
+    /*
     onMount(() => {
         let script = document.createElement('script');
         script.src = "https://cdn.plot.ly/plotly-latest.min.js"
@@ -38,13 +38,13 @@
                 },
             };
             var config = {responsive: true};
-            Plotly.newPlot('myDiv', data, layout, config);
-            Plotly.newPlot('myDiv2', data, layout, config);
+            // Plotly.newPlot('myDiv', data, layout, config);
+            // Plotly.newPlot('myDiv2', data, layout, config);
         }
     })
 
 
-
+*/
 </script>
 
 

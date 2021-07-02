@@ -6,15 +6,14 @@
     import Header from './Header.svelte';
     import Footer from './Footer.svelte';
     import ContentContainer from "./ContentContainer.svelte";
-
-    let select_name="";
+    import {currentSpecID} from "./stores";
 
 
 </script>
 
 <Tailwindcss/>
 <main class="bg-black-alt font-sans leading-normal tracking-normal">
-    <Header bind:select_name/>
+    <Header/>
     <ContentContainer/>
     <Footer/>
 </main>

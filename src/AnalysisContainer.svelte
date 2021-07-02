@@ -1,22 +1,59 @@
 <script>
     import {download_csv_file} from "./js_scripts/export_csv";
-    import {getContext, onMount, setContext} from "svelte";
-    import {fetchSfg, plotSfg, visualizeSfg} from "./js_scripts/plotting";
+    import {SfgSpectrum} from "./js_scripts/spectra";
+    import {Plotter} from "./js_scripts/Plotter";
+    import {currentSpecID} from "./stores";
+    import {BackendConnector} from "./js_scripts/BackendConnector";
 
-    let spectrum = "";
     let rawToggle = 1;
+    let plotter = new Plotter([], "plotter")
+    let conn = new BackendConnector()
+    let currentSpectrum = "";
+    let selectors = []
 
-    $: if (spectrum !== "") {
-        plotSfg(spectrum, 'plotter', rawToggle);
+
+    //$: if (spectrum !== "") {
+    // plotSfg(spectrum, 'plotter', rawToggle);
+
+    function makePlot(currentSpecID) {
+        let url = "http://localhost:8080/sfg" + "/" + currentSpecID
+
+        fetch(url).then(
+            result => result.json()
+        ).then(
+            data => plot(data, rawToggle)
+        )
+
     }
 
-
-    onMount(async () => {
-            const spec = await fetchSfg();
-            spectrum = spec;
-            plotSfg(spec, 'plotter', rawToggle)
+    function plot(data, toggle) {
+        currentSpectrum = new SfgSpectrum().fromJson(data);
+        if (toggle === 0) {
+            plotter.data = [currentSpectrum.toTrace("sfg_intensity")];
+            selectors.forEach(
+                it =>
+                    plotter.data.push(currentSpectrum.toTrace(it))
+            )
+            plotter.plot();
+        } else {
+            plotter.data = [currentSpectrum.toTrace()];
+            plotter.plot();
         }
-    )
+
+    }
+
+    $: {
+        makePlot($currentSpecID, rawToggle, selectors)
+    }
+
+    //}
+    /*
+    $: handlePlot()
+    onMount(async () => {
+            await handlePlot();
+
+        }
+    )*/
 </script>
 
 <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
@@ -25,7 +62,7 @@
             <!--Graph Card-->
             <div class="bg-gray-900 border border-gray-800 rounded shadow">
                 <div class="border-b border-gray-800 p-3">
-                    <h5 class="font-bold uppercase text-gray-600" id="headline">{spectrum.name}</h5>
+                    <h5 class="font-bold uppercase text-gray-600" id="headline">{currentSpectrum.name}</h5>
                 </div>
                 <div class="p-5">
                     <div class="" id="plotter"></div>
@@ -51,7 +88,19 @@
                         normalized
                     </label>
 
-                    <button on:click={() => download_csv_file(spectrum)} class="rounded px-4 bg-blue-800 p-3 mt-2">
+                    {#if rawToggle === 0}
+                        <label>
+                            <input type=checkbox bind:group={selectors} name="flavours" value="ir">
+                            show IR
+                        </label>
+                        <label>
+                            <input type=checkbox bind:group={selectors} name="flavours" value="vis">
+                            show VIS
+                        </label>
+                    {/if}
+                    <hr class="mt-2 border-solid border-gray-400">
+                    <button on:click={() => download_csv_file(currentSpectrum)}
+                            class="rounded px-4 bg-blue-800 p-3 mt-2">
                         Export CSV
                     </button>
                 </div>

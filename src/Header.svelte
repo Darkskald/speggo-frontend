@@ -1,8 +1,7 @@
 <script>
     import {fetchSfg, fuzzySfg, plotSfg} from "./js_scripts/plotting";
     import {onMount} from "svelte";
-
-    export let select_name = "";
+    import {currentSpecID} from "./stores";
 
     $: input = "";
     $: results = [];
@@ -15,7 +14,6 @@
         results = [];
     }
 
-    $: alert(select_name)
 
 </script>
 <nav id="header" class="bg-gray-900 fixed w-full z-10 top-0 shadow">
@@ -118,11 +116,12 @@
                     </svg>
                 </div>
                 {#if (results.length > 0)}
-                    <div class="w-full p-0  bg-gray-800 text-gray-100 overflow-auto max-h-64 absolute text-xs">
+                    <div class="p-0  bg-gray-800 text-gray-100 overflow-auto max-h-64 absolute text-xs p-0">
 
                         <ul class="m-0 p-0 cursor-pointer">
                             {#each results as result}
-                                <li on:click={() => {select_name=result; input=""}} class="hover:text-red-300">{result}</li>
+                                <li on:click={() => {$currentSpecID=result.id; input=""}}
+                                    class="hover:text-red-300">{result.name}</li>
                             {/each}
                         </ul>
                     </div>
