@@ -12,8 +12,7 @@
     let conn = new BackendConnector()
     let currentSpectrum = "";
     let selectors = []
-
-    $: alert(multiModeToggle)
+    let buffer = [];
 
     //$: if (spectrum !== "") {
     // plotSfg(spectrum, 'plotter', rawToggle);
@@ -24,7 +23,19 @@
         fetch(url).then(
             result => result.json()
         ).then(
-            data => plot(data, rawToggle)
+            (data) => {
+                if (!multiModeToggle) {
+                    plot(data, rawToggle);
+                } else {
+                    let currentSpectrum = new SfgSpectrum().fromJson(data);
+                    let temp = currentSpectrum.toTrace()
+                    temp.name = currentSpectrum.name;
+                    buffer.push(temp);
+                    plotter.data = buffer;
+                    plotter.layout["legend"]={"orientation": "h", "y": -0.2}
+                    plotter.plot()
+                }
+            }
         )
 
     }
@@ -79,10 +90,12 @@
             <div class="bg-gray-900 border border-gray-800 rounded shadow">
                 <div class="border-b border-gray-800 p-3">
                     <h5 class="font-bold uppercase text-gray-600">Menu</h5>
+
                 </div>
                 <div class="mb-1 p-3 text-gray-600">
 
-                    <Toggle bind:multiModeToggle labelText="toggle multisepc mode"/>
+                    <Toggle bind:multiModeToggle labelText="toggle multispec mode"/>
+
 
                     {#if !multiModeToggle}
                         <hr class="mt-2 border-solid border-gray-400">
@@ -108,9 +121,10 @@
                             </label>
                         {/if}
                         <hr class="mt-2 border-solid border-gray-400">
+
                         <button on:click={() => download_csv_file(currentSpectrum)}
                                 class="rounded px-4 bg-blue-600 p-3 mt-6  text-gray-800">
-                            Export CSV
+                            export CSV
                         </button>
                     {/if}
                 </div>

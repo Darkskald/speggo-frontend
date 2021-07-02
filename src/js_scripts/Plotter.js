@@ -12,7 +12,7 @@ export class Plotter {
             height: 600,
             paper_bgcolor: 'rgb(180,180,199)',
             plot_bgcolor: 'rgb(180,180,199)',
-            //autosize: true,
+            autosize: true,
             //margin: {l: 0.1, t: 0.1, r: 0.1, b: 0.1},
             yaxis: {
                 automargin: true,

@@ -8,7 +8,9 @@
         <input type="checkbox" bind:checked={multiModeToggle}>
         <span class="slider round"></span>
     </label>
-    <div class="px-3">{labelText}</div>
+    <div class="px-3">{labelText}
+    </div>
+
 </div>
 
 <style>
