@@ -8,13 +8,16 @@
     import ContentContainer from "./ContentContainer.svelte";
     import {currentSpecID} from "./stores";
 
+    let state="home";
+
+
 
 </script>
 
 <Tailwindcss/>
 <main class="bg-black-alt font-sans leading-normal tracking-normal">
-    <Header/>
-    <ContentContainer/>
+    <Header bind:state={state}/>
+    <ContentContainer bind:state={state}/>
     <Footer/>
 </main>
 

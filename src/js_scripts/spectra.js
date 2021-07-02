@@ -3,6 +3,7 @@
  */
 export class Trace {
     constructor(name, x, y, mode = 'lines+markers') {
+        this.name = name
         this.x = x;
         this.y = y;
         this.mode = mode;
@@ -53,8 +54,27 @@ export class SfgSpectrum {
      */
     toTrace(ySelector = null) {
         let y = ySelector === null ? this.normalizeSfgIntensity() : this[ySelector]
-        return new Trace(this.name, this.wavenumbers, y)
+        let temp = new Trace(this.getName(ySelector), this.wavenumbers, y);
+        let color;
+        if (ySelector === "ir") {
+            color = "red";
+        } else if (ySelector === "vis") {
+            color = "green"
+        }
+
+        temp["marker"] = {'color': color};
+        temp["line"] = {'color': color}
+        return temp;
     }
+
+    getName(selector) {
+        if (selector === null) {
+            return "normalized"
+        } else if (selector === "sfg_intensity") {
+            return "raw"
+        } else return selector.toUpperCase()
+    }
+
 
     /**
      * Convert the spectrum to a csv-ready string.
