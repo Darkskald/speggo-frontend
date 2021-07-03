@@ -22,6 +22,9 @@ export class Trace {
 
 }
 
+/**
+ * Represents a single VSFG spetrum.
+ */
 export class SfgSpectrum {
 
     constructor() {
@@ -90,4 +93,38 @@ export class SfgSpectrum {
         return csv
     }
 
+}
+
+/**
+ * Represents a single Langmuir compression isotherm.
+ */
+export class LtIsotherm {
+    constructor() {
+        this.name = "";
+        this.time = [];
+        this.area = [];
+        this.apm = [];
+        this.surface_pressure = [];
+    }
+
+    fromJson(data) {
+        return Object.assign(this, data)
+    }
+
+    /**
+     * Convert the LT isotherm to a plottable representation. The desired x value is selected with the ySelector.
+     * @param xSelector {String}
+     * @returns {Trace}
+     */
+    toTrace(xSelector = null) {
+        let x = xSelector === null ? this.area : this[xSelector]
+        return new Trace(this.getName(xSelector), x, this.surface_pressure);
+    }
+
+    getName(selector) {
+        if (selector === null) {
+            return "area"
+        } else return selector.split("_").join(" ")
+
+    }
 }
