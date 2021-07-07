@@ -4,11 +4,13 @@
 
     let plotter = new Plotter([], "plotter")
 
-    function plotPreview(sfg = null) {
-        if (sfg === null) {
+    function plotPreview(sfg_buffer = null) {
+        if (sfg_buffer === null) {
             plotter.purge()
         } else {
-            plotter.data = [sfg.toTrace()];
+            alert(JSON.stringify(sfg_buffer));
+            plotter.data = sfg_buffer.map(it => it.toTrace("sfg_intensity", true));
+            plotter.layout["legend"] = {"orientation": "h", "y": -0.2}
             plotter.plot();
         }
     }

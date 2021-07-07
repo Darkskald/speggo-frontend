@@ -6,11 +6,13 @@
     let selected = "VSFG";
 
     let isSelected = false;
+    let spec_buffer = [];
 
     const clear = () => {
         isSelected = false;
         document.getElementById("upload").value = "";
         plot_callback();
+        spec_buffer = [];
     };
     const upload = () => {
         isSelected = true;
@@ -19,36 +21,58 @@
     const load = {};
 
     function readSfgFile() {
+        let promises = [];
         const fileList = document.getElementById('upload').files;
-        const numFiles = fileList.length;
-        alert(numFiles)
-        let fr = new FileReader();
-        fr.onload = function (){
-            processSfgInput(fr.result)
+
+
+        for (let file of fileList) {
+            let filePromise = new Promise(resolve => {
+                let fileName = file.name;
+                let lastMod = file.lastModified;
+                let reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = () => resolve(processSfgInput(reader.result, fileName));
+            });
+            promises.push(filePromise);
         }
+        Promise.all(promises).then(sfgs => {
+            // fileContents will be an array containing
+            // the contents of the files, perform the
+            // character replacements and other transformations
+            // here as needed
+            spec_buffer = sfgs
+            plot_callback(sfgs)
+        });
+        /*
+        const numFiles = fileList.length;
         for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
             const file = fileList[i];
-            let txt = fr.readAsText(file, 'UTF-8');
-        }
+            let fileName = file.name;
+            let lastMod = file.lastModified;
 
+            let fr = new FileReader();
+            fr.onload = function () {
+                processSfgInput(fr.result, fileName)
+            }
+            fr.readAsText(file, 'UTF-8');
+        }*/
     }
 
-    function processSfgInput(input, delimiter='\t'){
-        let buffer = {name: "test", wavenumbers: [], sfg_intensity: [], ir: [], vis: []}
+    function processSfgInput(input, name, delimiter = '\t') {
+        let sfg_buffer = {name: name, wavenumbers: [], sfg_intensity: [], ir: [], vis: []}
         let lines = input.split('\n');
-        for (let i = 0, numLines = lines.length; i  < numLines; i++){
+        for (let i = 0, numLines = lines.length; i < numLines; i++) {
             let line = lines[i];
             let entries = line.split(delimiter)
             if (entries.length === 5) {
-                buffer.wavenumbers.push(Number(entries[0]));
-                buffer.sfg_intensity.push(Number(entries[1]));
-                buffer.vis.push(Number(entries[3]));
-                buffer.ir.push(Number(entries[4]));
+                sfg_buffer.wavenumbers.push(Number(entries[0]));
+                sfg_buffer.sfg_intensity.push(Number(entries[1]));
+                sfg_buffer.vis.push(Number(entries[3]));
+                sfg_buffer.ir.push(Number(entries[4]));
             }
         }
-        alert(JSON.stringify(buffer));
-        let temp = new SfgSpectrum().fromJson(buffer);
-        plot_callback(temp)
+        let temp = new SfgSpectrum().fromJson(sfg_buffer);
+        return temp;
     }
 
 

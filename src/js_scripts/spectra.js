@@ -53,11 +53,13 @@ export class SfgSpectrum {
     /**
      * Convert the SFG spectrum to a plottable representation. The desired y value is selected with the ySelector.
      * @param ySelector {String}
+     * @param realName {String}
      * @returns {Trace}
      */
-    toTrace(ySelector = null) {
+    toTrace(ySelector = null, realName=false) {
         let y = ySelector === null ? this.normalizeSfgIntensity() : this[ySelector]
-        let temp = new Trace(this.getName(ySelector), this.wavenumbers, y);
+        let name = !realName ? this.getName(ySelector) : this.name;
+        let temp = new Trace(name, this.wavenumbers, y);
         let color;
         if (ySelector === "ir") {
             color = "red";
