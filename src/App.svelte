@@ -4,7 +4,7 @@
     export let name;
 
     import Header from './Header.svelte';
-    import Footer from './Footer.svelte';
+    import Footer from './components/Footer.svelte';
     import ContentContainer from "./ContentContainer.svelte";
     import {currentSpecID} from "./stores";
 
