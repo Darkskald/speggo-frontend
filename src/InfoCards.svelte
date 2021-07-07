@@ -1,16 +1,23 @@
 <script>
 
     import {onMount} from "svelte";
-    /*
+    import {db_status} from "./js_scripts/mocks";
+
     onMount(() => {
         let script = document.createElement('script');
         script.src = "https://cdn.plot.ly/plotly-latest.min.js"
         document.head.append(script);
 
         script.onload = function () {
-            var data = [{
-                values: [19, 26, 55],
-                labels: ['SML', 'Artificial', 'DPPC'],
+            var data1 = [{
+                values: Object.values(db_status.spectra_count),
+                labels: Object.keys(db_status.spectra_count),
+                type: 'pie'
+            }];
+
+            var data2 = [{
+                values: Object.values(db_status.c_sfg_count),
+                labels: Object.keys(db_status.c_sfg_count),
                 type: 'pie'
             }];
 
@@ -22,12 +29,7 @@
                 plot_bgcolor: 'rgb(180,180,199)',
                 legend: {"orientation": "h"},
                 autosize: true,
-                yaxis: {
-                    //automargin: true,
-                },
-                xaxis: {
-                    //automargin: true,
-                },
+
 
                 margin: {
                     l: 50,
@@ -38,13 +40,12 @@
                 },
             };
             var config = {responsive: true};
-            // Plotly.newPlot('myDiv', data, layout, config);
-            // Plotly.newPlot('myDiv2', data, layout, config);
+            Plotly.newPlot('myDiv', data1, layout, config);
+            Plotly.newPlot('myDiv2', data2, layout, config);
         }
     })
 
 
-*/
 </script>
 
 
@@ -58,7 +59,7 @@
                 </div>
                 <div class="flex-1 text-right md:text-center">
                     <h5 class="font-bold uppercase text-gray-400">Total spectra</h5>
-                    <h3 class="font-bold text-3xl text-gray-600">2500 <span class="text-green-500"><i
+                    <h3 class="font-bold text-3xl text-gray-600">{Object.values(db_status.spectra_count).reduce((a,b) => a+b, 0)}<span class="text-green-500"><i
                             class="fas fa-caret-up"></i></span></h3>
                 </div>
             </div>
@@ -105,7 +106,7 @@
 
                 <div class=" text-left md:text-center">
 
-                    <h3 class="font-bold text-3xl text-gray-600">SFG types</h3>
+                    <h3 class="font-bold text-3xl text-gray-600">Spectra types</h3>
                 </div>
             </div>
             <div id="myDiv">
@@ -121,7 +122,7 @@
 
                 <div class=" text-left md:text-center">
 
-                    <h3 class="font-bold text-3xl text-gray-600">Spectra types</h3>
+                    <h3 class="font-bold text-3xl text-gray-600">SFG types</h3>
                 </div>
             </div>
             <div id="myDiv2">
