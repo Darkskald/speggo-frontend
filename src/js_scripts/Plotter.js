@@ -31,4 +31,9 @@ export class Plotter {
         Plotly.newPlot(target, this.data, this.layout, this.config);
     }
 
+    purge(){
+        let target = document.getElementById(this.targetDiv);
+        Plotly.purge(target)
+    }
+
 }

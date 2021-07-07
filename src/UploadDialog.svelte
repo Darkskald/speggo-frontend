@@ -1,10 +1,55 @@
 <script>
+    import {SfgSpectrum} from "./js_scripts/spectra";
+
+    export let plot_callback;
     let spec_types = ["VSFG", "LT", "IR", "Raman", "UV"];
     let selected = "VSFG";
 
-    const clear = {};
-    const submit = {};
+    let isSelected = false;
+
+    const clear = () => {
+        isSelected = false;
+        document.getElementById("upload").value = "";
+        plot_callback();
+    };
+    const upload = () => {
+        isSelected = true;
+        readSfgFile();
+    };
     const load = {};
+
+    function readSfgFile() {
+        const fileList = document.getElementById('upload').files;
+        const numFiles = fileList.length;
+        alert(numFiles)
+        let fr = new FileReader();
+        fr.onload = function (){
+            processSfgInput(fr.result)
+        }
+        for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+            const file = fileList[i];
+            let txt = fr.readAsText(file, 'UTF-8');
+        }
+
+    }
+
+    function processSfgInput(input, delimiter='\t'){
+        let buffer = {name: "test", wavenumbers: [], sfg_intensity: [], ir: [], vis: []}
+        let lines = input.split('\n');
+        for (let i = 0, numLines = lines.length; i  < numLines; i++){
+            let line = lines[i];
+            let entries = line.split(delimiter)
+            if (entries.length === 5) {
+                buffer.wavenumbers.push(Number(entries[0]));
+                buffer.sfg_intensity.push(Number(entries[1]));
+                buffer.vis.push(Number(entries[3]));
+                buffer.ir.push(Number(entries[4]));
+            }
+        }
+        alert(JSON.stringify(buffer));
+        let temp = new SfgSpectrum().fromJson(buffer);
+        plot_callback(temp)
+    }
 
 
 </script>
@@ -31,26 +76,27 @@
 
         <hr class="mt-2 border-solid border-gray-400">
         <div class="mb-1 p-3 text-gray-600">
+            {#if !isSelected}
+                <div class="w-full">
+                    <button on:click={upload}
+                            class="rounded px-4 bg-blue-600 p-3 mt-6 text-gray-800">
+                        Upload
+                    </button>
+                </div>
+            {:else }
+                <div class="w-full">
+                    <button on:click={() => {}}
+                            class="rounded px-4 bg-green-600 p-3 mt-6 text-gray-800 w-1/4">
+                        Submit
+                    </button>
 
-            <div class="w-full">
-                <button on:click={() => {}}
-                        class="rounded px-4 bg-blue-600 p-3 mt-6 text-gray-800">
-                    Upload
-                </button>
-            </div>
+                    <button on:click={clear}
+                            class="rounded px-4 bg-red-800 p-3 mt-6 text-gray-800 w-1/4">
+                        Clear
+                    </button>
 
-            <div class="w-full">
-                <button on:click={() => {}}
-                        class="rounded px-4 bg-green-600 p-3 mt-6 text-gray-800 w-1/4">
-                    Submit
-                </button>
-
-                <button on:click={() => {}}
-                        class="rounded px-4 bg-red-800 p-3 mt-6 text-gray-800 w-1/4">
-                    Clear
-                </button>
-
-            </div>
+                </div>
+            {/if}
         </div>
     </div>
     <!--/Menu Card-->
