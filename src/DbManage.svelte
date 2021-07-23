@@ -8,7 +8,6 @@
         if (sfg_buffer === null) {
             plotter.purge()
         } else {
-            alert(JSON.stringify(sfg_buffer));
             plotter.data = sfg_buffer.map(it => it.toTrace("sfg_intensity", true));
             plotter.layout["legend"] = {"orientation": "h", "y": -0.2}
             plotter.plot();

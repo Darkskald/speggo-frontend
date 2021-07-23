@@ -27,3 +27,8 @@
 
     </div>
 </footer>
+<style>
+    a {
+        color: rgba(75, 85, 95, 1);
+    }
+</style>

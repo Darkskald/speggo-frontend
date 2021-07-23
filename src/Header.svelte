@@ -2,6 +2,7 @@
     import {fetchSfg, fuzzySfg, plotSfg} from "./js_scripts/plotting";
     import {onMount} from "svelte";
     import {currentSpecID} from "./stores";
+
     export let state;
 
     $: input = "";
@@ -107,28 +108,30 @@
                 </li>
             </ul>
 
-            <div class="relative pull-right pl-4 pr-4 md:pr-0">
-                <input type="search" placeholder="Search" bind:value={input}
-                       class="w-full bg-gray-900 text-sm text-gray-400 transition border border-gray-800 focus:outline-none focus:border-gray-600 rounded py-1 px-2 pl-10 appearance-none leading-normal">
-                <div class="absolute search-icon" style="top: 0.375rem;left: 1.75rem;">
-                    <svg class="fill-current pointer-events-none text-gray-500 w-4 h-4"
-                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                    </svg>
-                </div>
-                {#if (results.length > 0)}
-                    <div class="p-0  bg-gray-800 text-gray-100 overflow-auto max-h-64 absolute text-xs p-0">
-
-                        <ul class="m-0 p-0 cursor-pointer">
-                            {#each results as result}
-                                <li on:click={() => {$currentSpecID=result.id; input=""}}
-                                    class="hover:text-red-300">{result.name}</li>
-                            {/each}
-                        </ul>
+            {#if (state === "analysis")}
+                <div class="relative pull-right pl-4 pr-4 md:pr-0">
+                    <input type="search" placeholder="Search" bind:value={input}
+                           class="w-full bg-gray-900 text-sm text-gray-400 transition border border-gray-800 focus:outline-none focus:border-gray-600 rounded py-1 px-2 pl-10 appearance-none leading-normal">
+                    <div class="absolute search-icon" style="top: 0.375rem;left: 1.75rem;">
+                        <svg class="fill-current pointer-events-none text-gray-500 w-4 h-4"
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                        </svg>
                     </div>
-                {/if}
+                    {#if (results.length > 0)}
+                        <div class="p-0  bg-gray-800 text-gray-100 overflow-auto max-h-64 absolute text-xs p-0">
 
-            </div>
+                            <ul class="m-0 p-0 cursor-pointer">
+                                {#each results as result}
+                                    <li on:click={() => {$currentSpecID=result.id; input=""}}
+                                        class="hover:text-red-300">{result.name}</li>
+                                {/each}
+                            </ul>
+                        </div>
+                    {/if}
+
+                </div>
+            {/if}
         </div>
     </div>
 </nav>

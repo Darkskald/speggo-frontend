@@ -33,6 +33,7 @@
         /* this will apply to <body> */
         margin: 0;
         padding: 0;
+        background-color: rgba(17, 24, 39, 1);
     }
 
     :global(button) {

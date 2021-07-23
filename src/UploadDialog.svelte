@@ -72,6 +72,7 @@
             }
         }
         let temp = new SfgSpectrum().fromJson(sfg_buffer);
+        console.log(JSON.stringify(temp))
         return temp;
     }
 
